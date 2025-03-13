@@ -59,7 +59,6 @@ int main()
 	}
 
 	PrintSqList(L);
-	
 	system("pause");
 	return 0;
 }
