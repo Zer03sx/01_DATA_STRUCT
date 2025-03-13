@@ -1,28 +1,64 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35514.174 d17.12
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01_DATA_STRUCT", "01_DATA_STRUCT\01_DATA_STRUCT.vcxproj", "{B7890347-6275-4587-8D85-CC3EC8FDB510}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
-		Release|x64 = Release|x64
-		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Debug|x64.ActiveCfg = Debug|x64
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Debug|x64.Build.0 = Debug|x64
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Debug|x86.ActiveCfg = Debug|Win32
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Debug|x86.Build.0 = Debug|Win32
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Release|x64.ActiveCfg = Release|x64
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Release|x64.Build.0 = Release|x64
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Release|x86.ActiveCfg = Release|Win32
-		{B7890347-6275-4587-8D85-CC3EC8FDB510}.Release|x86.Build.0 = Release|Win32
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-EndGlobal
+#include <iostream>
+using namespace std;
+#define MAXSIZE 100
+typedef int Element;
+
+typedef struct {
+	Element data[MAXSIZE];
+	int len;
+}SqlList;
+
+bool ListInsert(SqlList& L, int pos, Element element)
+{
+	//判断pos是否合法
+	if (pos < 1 || pos > L.len + 1)
+		return false;
+	
+	//如果位置满了
+	if (L.len >= MAXSIZE)
+		return false;
+
+	//把后面的元素依次往后移
+	for (int j = L.len; j >= pos; j--)
+	{
+		L.data[j] = L.data[j - 1];
+	}
+	//放入要插入的元素
+	L.data[pos - 1] = element;
+	L.len++;
+	return true;
+}
+
+//实现顺序表的顺序打印
+void PrintSqList(SqlList L)
+{
+	for (int i = 0; i < L.len; i++)
+	{
+		cout << L.data[i] << endl;
+	}
+}
+
+int main()
+{
+	SqlList L;
+	L.data[0] = 1;
+	L.data[1] = 2;
+	L.data[2] = 3;
+	L.len = 3;
+	PrintSqList(L);
+	bool ret;	//存储函数的返回值
+	ret = ListInsert(L, 2, 10);
+
+	if (ret)
+	{
+		cout << "Insert success!" << endl;
+	}
+	else
+	{
+		cout << "Insert fail!" << endl;
+	}
+
+	PrintSqList(L);
+	system("pause");
+	return 0;
+}
